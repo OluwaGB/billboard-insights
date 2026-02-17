@@ -14,7 +14,134 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      billboards: {
+        Row: {
+          code: string
+          created_at: string
+          id: string
+          latitude: number | null
+          location: string
+          longitude: number | null
+          name: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          id?: string
+          latitude?: number | null
+          location: string
+          longitude?: number | null
+          name: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          id?: string
+          latitude?: number | null
+          location?: string
+          longitude?: number | null
+          name?: string
+        }
+        Relationships: []
+      }
+      campaigns: {
+        Row: {
+          billboard_id: string
+          created_at: string
+          end_date: string
+          id: string
+          landing_url: string
+          name: string
+          start_date: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          billboard_id: string
+          created_at?: string
+          end_date: string
+          id?: string
+          landing_url: string
+          name: string
+          start_date: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          billboard_id?: string
+          created_at?: string
+          end_date?: string
+          id?: string
+          landing_url?: string
+          name?: string
+          start_date?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campaigns_billboard_id_fkey"
+            columns: ["billboard_id"]
+            isOneToOne: false
+            referencedRelation: "billboards"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      scan_events: {
+        Row: {
+          billboard_id: string
+          campaign_id: string
+          converted: boolean
+          device_type: string | null
+          id: string
+          ip_address: unknown
+          is_bot: boolean
+          referer: string | null
+          scanned_at: string
+          user_agent: string | null
+        }
+        Insert: {
+          billboard_id: string
+          campaign_id: string
+          converted?: boolean
+          device_type?: string | null
+          id?: string
+          ip_address?: unknown
+          is_bot?: boolean
+          referer?: string | null
+          scanned_at?: string
+          user_agent?: string | null
+        }
+        Update: {
+          billboard_id?: string
+          campaign_id?: string
+          converted?: boolean
+          device_type?: string | null
+          id?: string
+          ip_address?: unknown
+          is_bot?: boolean
+          referer?: string | null
+          scanned_at?: string
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scan_events_billboard_id_fkey"
+            columns: ["billboard_id"]
+            isOneToOne: false
+            referencedRelation: "billboards"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "scan_events_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
